@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/internal/Observable';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -6,9 +9,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
-  users: User[] = [];
-  roles: Role[] = [];
 
   addUser(userName) {
     // проверка данных, регулярка и защита от html инъекций
@@ -39,10 +39,21 @@ export class AppComponent {
     }
   }
 
+  users: User[] = [];
+  roles: Role[] = [];
+
+  private url = "User"
+
+  constructor(private http: HttpClient) {
+
+  }
+
+  public getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${environment.apiUrl}/${this.url}`);
+  }
+
   ngOnInit() {
-    this.users.push({id: 0, name: 'Влад', roles: []});
-    this.users.push({id: 1, name: 'Рома', roles: []});
-    this.users.push({id: 2, name: 'Гриша', roles: []});
+    this.getUsers().subscribe((result: User[]) => this.users = result);
 
     this.roles.push({id: 0, name: 'Роль1'});
     this.roles.push({id: 1, name: 'Роль2'});
