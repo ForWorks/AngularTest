@@ -2,17 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
+import { User } from 'src/models/User';
+import { Role } from 'src/models/Role';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
 
   addUser(userName) {
     // проверка данных, регулярка и защита от html инъекций
-    this.users.push({id: 3, name: userName, roles: []});
     return false;
   }
 
@@ -42,32 +44,17 @@ export class AppComponent {
   users: User[] = [];
   roles: Role[] = [];
 
-  private url = "User"
+  private usersUrl = "Users";
+  private rolesUrl = "Roles";
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) {}
 
-  }
-
-  public getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${environment.apiUrl}/${this.url}`);
+  public getCollection<T>(url: string): Observable<T[]> {    
+    return this.http.get<T[]>(`${environment.apiUrl}/${url}`);  
   }
 
   ngOnInit() {
-    this.getUsers().subscribe((result: User[]) => this.users = result);
-
-    this.roles.push({id: 0, name: 'Роль1'});
-    this.roles.push({id: 1, name: 'Роль2'});
-    this.roles.push({id: 2, name: 'Роль3'});
+    this.getCollection<Role>(this.rolesUrl).subscribe((result: Role[]) => this.roles = result);
+    this.getCollection<User>(this.usersUrl).subscribe((result: User[]) => this.users = result);
   }
-}
-
-interface User {
-	id: number,
-	name: string,
-  roles: Role[],
-}
-
-interface Role {
-  id: number,
-  name: string,
 }

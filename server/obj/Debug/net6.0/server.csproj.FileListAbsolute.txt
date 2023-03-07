@@ -25,3 +25,16 @@ C:\Users\userD\Desktop\TestTask\server\obj\Debug\net6.0\refint\server.dll
 C:\Users\userD\Desktop\TestTask\server\obj\Debug\net6.0\server.pdb
 C:\Users\userD\Desktop\TestTask\server\obj\Debug\net6.0\server.genruntimeconfig.cache
 C:\Users\userD\Desktop\TestTask\server\obj\Debug\net6.0\ref\server.dll
+C:\Users\userD\Desktop\TestTask\server\bin\Debug\net6.0\AWSSDK.Core.dll
+C:\Users\userD\Desktop\TestTask\server\bin\Debug\net6.0\AWSSDK.SecurityToken.dll
+C:\Users\userD\Desktop\TestTask\server\bin\Debug\net6.0\DnsClient.dll
+C:\Users\userD\Desktop\TestTask\server\bin\Debug\net6.0\MongoDB.Bson.dll
+C:\Users\userD\Desktop\TestTask\server\bin\Debug\net6.0\MongoDB.Driver.dll
+C:\Users\userD\Desktop\TestTask\server\bin\Debug\net6.0\MongoDB.Driver.Core.dll
+C:\Users\userD\Desktop\TestTask\server\bin\Debug\net6.0\MongoDB.Libmongocrypt.dll
+C:\Users\userD\Desktop\TestTask\server\bin\Debug\net6.0\SharpCompress.dll
+C:\Users\userD\Desktop\TestTask\server\bin\Debug\net6.0\Snappier.dll
+C:\Users\userD\Desktop\TestTask\server\bin\Debug\net6.0\ZstdSharp.dll
+C:\Users\userD\Desktop\TestTask\server\bin\Debug\net6.0\runtimes\linux\native\libmongocrypt.so
+C:\Users\userD\Desktop\TestTask\server\bin\Debug\net6.0\runtimes\osx\native\libmongocrypt.dylib
+C:\Users\userD\Desktop\TestTask\server\bin\Debug\net6.0\runtimes\win\native\mongocrypt.dll
