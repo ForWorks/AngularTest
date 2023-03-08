@@ -9,8 +9,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDB"));
-builder.Services.AddSingleton<UsersService>();
-builder.Services.AddSingleton<RolesService>();
+builder.Services.AddSingleton<UserService>();
+builder.Services.AddSingleton<RoleService>();
 builder.Services.AddCors(options => {
     options.AddPolicy(
         name: "UserOrigin",

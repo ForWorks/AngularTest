@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/internal/Observable';
-import { environment } from 'src/environments/environment';
 import { User } from 'src/models/User';
 import { Role } from 'src/models/Role';
+import { UserService } from './services/user.service';
+import { RoleService } from './services/role.service';
 
 @Component({
   selector: 'app-root',
@@ -13,48 +12,57 @@ import { Role } from 'src/models/Role';
 
 export class AppComponent {
 
-  addUser(userName) {
-    // проверка данных, регулярка и защита от html инъекций
-    return false;
+  users: User[] = [];
+  roles: Role[] = [];
+
+  constructor(private userService: UserService, private roleService: RoleService) {}
+
+  ngOnInit() {
+    this.userService
+      .getUsers()
+      .subscribe((users: User[]) => this.users = users);
+    this.roleService
+      .getRoles()
+      .subscribe((roles: Role[]) => this.roles = roles);
   }
 
-  addRole(userRole) {
-    this.roles.push({id: 3, name: userRole});
+  addUser(userName: string) {
+    // проверка данных, регулярка и защита от html инъекций
+    let user = {name: userName, roles: []}
+    this.userService
+      .createUser(user)
+      .subscribe((user: User) => this.users.push(user));
+      return false;
+  }
+
+  addRole(roleName: string) {
+    let role = {name: roleName}
+    this.roleService
+      .createRole(role)
+      .subscribe((role: Role) => this.roles.push(role));
     return false;
   }
 
   deleteRole(roleId) {
-    for(let i = 0; i < this.roles.length; i++) {
-      if(this.roles[i].id == roleId) {
-        this.roles.splice(i, 1);
-        break;
-      }
-    }
+    this.roleService
+      .deleteRole(roleId)
+      .subscribe(() => this.deleteItem(this.roles, roleId));
+      return false;
   }
 
   deleteUser(userId) {
-    for(let i = 0; i < this.users.length; i++) {
-      if(this.users[i].id == userId) {
-        this.users.splice(i, 1);
-        break;
+    this.userService
+      .deleteUser(userId)
+      .subscribe(() => this.deleteItem(this.users, userId));
+      return false;
+  }
+
+  private deleteItem<T extends Role | User>(collection: T[], itemId: string) {
+    for(let i = 0; i < collection.length; i++) {
+      if(collection[i].id == itemId) {           
+        collection.splice(i, 1);
+        return;
       }
     }
-  }
-
-  users: User[] = [];
-  roles: Role[] = [];
-
-  private usersUrl = "Users";
-  private rolesUrl = "Roles";
-
-  constructor(private http: HttpClient) {}
-
-  public getCollection<T>(url: string): Observable<T[]> {    
-    return this.http.get<T[]>(`${environment.apiUrl}/${url}`);  
-  }
-
-  ngOnInit() {
-    this.getCollection<Role>(this.rolesUrl).subscribe((result: Role[]) => this.roles = result);
-    this.getCollection<User>(this.usersUrl).subscribe((result: User[]) => this.users = result);
   }
 }
