@@ -6,8 +6,8 @@
         <h3 class="text-center">Users</h3>
         <div class="user-field" *ngFor="let user of users">{{user.name}}
             <div>
-                <button class="btn btn-warning btn-sm m-1">+</button>
-                <button class="btn btn-danger btn-sm m-1"(click)="deleteUser(user.id)">x</button>
+                <button class="btn btn-warning btn-sm m-1" title="Edit User" (click)="showUserModal(user)">+</button>
+                <button class="btn btn-danger btn-sm m-1" title="Delete User" (click)="deleteUser(user.id)">x</button>
             </div>
         </div>
     </div>
@@ -32,4 +32,6 @@
             <button type="submit" class="btn btn-warning">Add Role</button>            
         </form>
     </div>
+
+    <ng-template appRef></ng-template>
 </div>

@@ -1,0 +1,16 @@
+<div class="backdrop"></div>
+<div class="modal-window">
+    <h1>Edit User</h1>
+    <input #newName value="{{user.name}}"><br />
+    <form (submit)="editUser(newName.value)">  
+        <div *ngFor="let role of user.roles">
+            <br /><input type="checkbox" checked>{{role.name}}
+        </div><br />      
+        <select #selectRole >
+            <option *ngFor="let role of roles">{{role.name}}</option> 
+        </select>   
+        <br /><br />
+        <button (click)="addRole(selectRole.value)">Add Role</button><br /><br />
+        <button type="submit">Edit User</button>
+    </form>    
+</div>

@@ -5,7 +5,7 @@ using TestTask;
 namespace server.Controllers;
 
 [Controller]
-[Route("api/Users")]
+[Route("api/Roles")]
 public class RoleController : ControllerBase {
 
     private readonly RoleService _roleService;

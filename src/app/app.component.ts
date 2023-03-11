@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { User } from 'src/models/User';
-import { Role } from 'src/models/Role';
+import { Component, ViewChild } from '@angular/core';
+import { User } from 'src/app/models/User';
+import { Role } from 'src/app/models/Role';
 import { UserService } from './services/user.service';
 import { RoleService } from './services/role.service';
+import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { RefDirective } from './components/ref.directive';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +14,10 @@ import { RoleService } from './services/role.service';
 
 export class AppComponent {
 
-  users: User[] = [];
-  roles: Role[] = [];
+  @ViewChild(RefDirective) refDirective: RefDirective
+
+  users: User[] = []
+  roles: Role[] = []
 
   constructor(private userService: UserService, private roleService: RoleService) {}
 
@@ -24,6 +28,15 @@ export class AppComponent {
     this.roleService
       .getRoles()
       .subscribe((roles: Role[]) => this.roles = roles);
+  }
+
+  showUserModal(user) {
+    const component = this.refDirective.containerRef.createComponent(EditUserComponent)
+    component.instance.user = user
+    component.instance.roles = this.roles
+    component.instance.close.subscribe(() => {
+      this.refDirective.containerRef.clear()
+    })
   }
 
   addUser(userName: string) {
