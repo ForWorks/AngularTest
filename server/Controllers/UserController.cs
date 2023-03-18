@@ -16,18 +16,24 @@ public class UserController : ControllerBase {
     
     [HttpGet]
     public async Task<ActionResult<List<User>>> GetUsers() {
-        return await _userService.GetAsync();
+        return await _userService.GetUserAsync();
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateUser([FromBody] User user) {
-        await _userService.CreateAsync(user);
+        await _userService.CreateUserAsync(user);
         return CreatedAtAction(nameof(GetUsers), new { id = user.id }, user);
+    }
+
+    [HttpPut("id")]
+    public async Task<IActionResult> UpdateUser(string id, [FromBody] User user) {
+        await _userService.UpdateUserAsync(id, user);
+        return NoContent();
     }
 
     [HttpDelete("id")]
     public async Task<IActionResult> DeleteUser(string id) {
-        await _userService.DeleteAsync(id);
+        await _userService.DeleteUserAsync(id);
         return NoContent();
     }
 }

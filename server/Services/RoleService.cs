@@ -28,4 +28,12 @@ public class RoleService {
         await _roles.DeleteOneAsync(filter);
         return;
     }
+
+    public async Task UpdateRoleAsync(string id, Role newRole) {
+        FilterDefinition<Role> filter = Builders<Role>.Filter.Eq("id", id);
+        UpdateDefinition<Role> update = Builders<Role>.Update
+            .Set(role => role.name, newRole.name);
+        await _roles.UpdateOneAsync(filter, update);
+        return;
+    }
 }

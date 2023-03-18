@@ -4,7 +4,9 @@ import { Role } from 'src/app/models/Role';
 import { UserService } from './services/user.service';
 import { RoleService } from './services/role.service';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
-import { RefDirective } from './components/ref.directive';
+import { UserRefDirective } from './components/edit-user/user-ref.directive';
+import { EditRoleComponent } from './components/edit-role/edit-role.component';
+import { RoleRefDirective } from './components/edit-role/role-ref.directive';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +16,8 @@ import { RefDirective } from './components/ref.directive';
 
 export class AppComponent {
 
-  @ViewChild(RefDirective) refDirective: RefDirective
+  @ViewChild(UserRefDirective) userRefDirective: UserRefDirective
+  @ViewChild(RoleRefDirective) roleRefDirective: RoleRefDirective
 
   users: User[] = []
   roles: Role[] = []
@@ -30,12 +33,20 @@ export class AppComponent {
       .subscribe((roles: Role[]) => this.roles = roles);
   }
 
-  showUserModal(user) {
-    const component = this.refDirective.containerRef.createComponent(EditUserComponent)
+  showUserModal(user: User) {
+    const component = this.userRefDirective.containerRef.createComponent(EditUserComponent)
     component.instance.user = user
     component.instance.roles = this.roles
     component.instance.close.subscribe(() => {
-      this.refDirective.containerRef.clear()
+      this.userRefDirective.containerRef.clear()
+    })
+  }
+
+  showRoleModal(role: Role) {
+    const component = this.roleRefDirective.containerRef.createComponent(EditRoleComponent)
+    component.instance.role = role
+    component.instance.close.subscribe(() => {
+      this.roleRefDirective.containerRef.clear()
     })
   }
 

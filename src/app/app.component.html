@@ -4,34 +4,50 @@
 <div class="row align-items-start m-3">
     <div class="col alert alert-success m-2">
         <h3 class="text-center">Users</h3>
-        <div class="user-field" *ngFor="let user of users">{{user.name}}
+        <div *ngFor="let user of users">
+            <div class="user-field">
+                <h5>{{user.name}}</h5>
+                <div>
+                    <button class="btn btn-success btn-sm m-1" title="Edit User" (click)="showUserModal(user)">&#10000;</button>
+                    <button class="btn btn-danger btn-sm m-1" title="Delete User" (click)="deleteUser(user.id)">X</button>
+                </div>                   
+            </div> 
             <div>
-                <button class="btn btn-warning btn-sm m-1" title="Edit User" (click)="showUserModal(user)">+</button>
-                <button class="btn btn-danger btn-sm m-1" title="Delete User" (click)="deleteUser(user.id)">x</button>
-            </div>
-        </div>
+                <ul *ngFor="let role of user.roles">                
+                    <li>{{role.name}}</li>
+                </ul> 
+            </div>                         
+        </div>     
+        <div *ngIf="users.length == 0">
+            Users not found
+        </div>     
     </div>
     <div class="col alert alert-success m-2">
         <h3 class="text-center">Roles</h3>
-        <div class="user-field" *ngFor="let role of roles">{{role.name}}
+        <div class="user-field" *ngFor="let role of roles">
+            <input type="text" class="input-field" readonly value="{{role.name}}">
             <div>
-                <button class="btn btn-warning btn-sm m-1">+</button>
-                <button class="btn btn-danger btn-sm m-1" (click)="deleteRole(role.id)">x</button>
+                <button class="btn btn-success btn-sm m-1" title="Edit Role" (click)="showRoleModal(role)">&#10000;</button>
+                <button class="btn btn-danger btn-sm m-1" title="Delete Role" (click)="deleteRole(role.id)">X</button>
             </div>
         </div>
+        <div *ngIf="roles.length == 0">
+            Roles not found
+        </div> 
     </div>
-    <div class="col alert alert-warning m-2">
+    <div class="col alert alert-success m-2">
         <h3 class="text-center">Add User</h3>
         <form class="user-field mb-5" (submit)="addUser(userInput.value)">            
-            <input type="text" #userInput placeholder="User name">
-            <button type="submit" class="btn btn-warning">Add User</button>            
+            <input class="input-field" type="text" #userInput placeholder="User name">
+            <button type="submit" title="Add User" class="btn btn-success">Add User</button>            
         </form>
         <h3 class="text-center">Add Role</h3>
         <form class="user-field" (submit)="addRole(roleInput.value)">            
-            <input type="text" #roleInput placeholder="User role">
-            <button type="submit" class="btn btn-warning">Add Role</button>            
+            <input class="input-field" type="text" #roleInput placeholder="User role">
+            <button type="submit" title="Add Role" class="btn btn-success">Add Role</button>            
         </form>
     </div>
 
-    <ng-template appRef></ng-template>
+    <ng-template userRef></ng-template>
+    <ng-template roleRef></ng-template>
 </div>

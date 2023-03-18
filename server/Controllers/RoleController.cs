@@ -19,6 +19,12 @@ public class RoleController : ControllerBase {
         return await _roleService.GetAsyns();
     }
 
+    [HttpPut("id")]
+    public async Task<IActionResult> UpdateUser(string id, [FromBody] Role role) {
+        await _roleService.UpdateRoleAsync(id, role);
+        return NoContent();
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreateRole([FromBody] Role role) {
         await _roleService.CreateAsync(role);

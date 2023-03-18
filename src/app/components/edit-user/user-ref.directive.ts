@@ -1,9 +1,9 @@
 import { Directive, ViewContainerRef } from "@angular/core";
 
 @Directive({
-    selector: '[appRef]'
+    selector: '[userRef]'
 })
 
-export class RefDirective {
+export class UserRefDirective {
     constructor(public containerRef: ViewContainerRef) {}
 }

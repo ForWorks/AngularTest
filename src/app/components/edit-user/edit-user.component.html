@@ -1,16 +1,18 @@
 <div class="backdrop"></div>
 <div class="modal-window">
-    <h1>Edit User</h1>
-    <input #newName value="{{user.name}}"><br />
+    <h1 class="text-center mb-3">Edit User</h1>
+    <p class="close-modal" (click)="close.emit()">X</p>
+    <input class="input-field mb-2" placeholder="User name" #newName value="{{user.name}}"><br />
     <form (submit)="editUser(newName.value)">  
-        <div *ngFor="let role of user.roles">
-            <br /><input type="checkbox" checked>{{role.name}}
-        </div><br />      
-        <select #selectRole >
-            <option *ngFor="let role of roles">{{role.name}}</option> 
-        </select>   
-        <br /><br />
-        <button (click)="addRole(selectRole.value)">Add Role</button><br /><br />
-        <button type="submit">Edit User</button>
+        <div *ngFor="let role of selectedRoles">
+            <input class="checkbox" [(ngModel)]="role.isSelected" type="checkbox" name="{{role.name}}" checked>{{role.name}}
+        </div>
+        <div class="select-wrapper mb-3">
+            <select class="mt-2" #selectRole>
+                <option *ngFor="let role of roles">{{role.name}}</option> 
+            </select>
+        </div>
+        <button type="button" class="btn btn-success mb-2" (click)="addRole(selectRole.value)">Add Role</button>
+        <button class="btn btn-success edit-button" type="submit">Edit User</button>
     </form>    
 </div>

@@ -1,0 +1,9 @@
+<div class="backdrop"></div>
+<div class="modal-window">
+    <h1 class="text-center mb-3">Edit Role</h1>
+    <p class="close-modal" (click)="close.emit()">X</p>
+    <form (submit)="editRole(newName.value)"> 
+        <input style="display: block; margin: 0 auto;" class="input-field mb-4" placeholder="Role name" #newName value="{{role.name}}">
+        <button class="btn btn-success edit-button" type="submit">Edit Role</button>
+    </form>    
+</div>

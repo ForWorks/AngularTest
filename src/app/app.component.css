@@ -3,14 +3,3 @@
     align-items: center;
     justify-content: space-between;
 }
-
-.text-center {
-    text-align: center;
-}
-
-input {
-    border-radius: 10px; 
-    padding: 0px 10px;
-    border: none;
-    outline: none;
-}

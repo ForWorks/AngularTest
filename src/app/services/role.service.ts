@@ -25,4 +25,8 @@ export class RoleService {
   public deleteRole(id: string) : Observable<Role> {
     return this.httpClient.delete<Role>(`${environment.apiUrl}/${this.url}/id?id=${id}`); 
   }
+
+  public editRole(role: Role) : Observable<Role> {
+    return this.httpClient.put<Role>(`${environment.apiUrl}/${this.url}/id?id=${role.id}`, role); 
+  }
 }
