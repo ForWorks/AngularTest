@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Role } from 'src/app/models/Role';
+import { SelectedRole } from 'src/app/models/SelectedRole';
 import { User } from 'src/app/models/User';
 import { UserService } from 'src/app/services/user.service';
 
@@ -25,17 +26,21 @@ export class EditUserComponent {
   }
 
   editUser(userName: string) {
-    this.user.name = userName
-    this.user.roles = []
-    this.selectedRoles.forEach((role) => {
-      if(role.isSelected) {
-        this.user.roles.push({id: role.id, name: role.name})
-      }
-    })
-    this.userService
-      .editUser(this.user)
-      .subscribe(() => this.close.emit());
-    return false
+    if(this.userService.userNameIsValid(userName)) {
+      this.user.name = userName
+      this.user.roles = []
+      this.selectedRoles.forEach((role) => {
+        if(role.isSelected) {
+          this.user.roles.push({id: role.id, name: role.name})
+        }
+      })
+      this.userService
+        .editUser(this.user)
+        .subscribe(() => this.close.emit())
+    }
+    else {
+      alert("Check the name you entered.")
+    }
   }
 
   addRole(roleName: string) {
@@ -48,14 +53,7 @@ export class EditUserComponent {
       })
     }
     else {
-      console.log("Error. User already has this role.")
+      alert("User already has this role.")
     }
-    return false
   }
-}
-
-interface SelectedRole {
-  id?: string,
-  name: string,
-  isSelected: boolean,
 }

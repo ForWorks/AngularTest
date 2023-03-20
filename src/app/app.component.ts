@@ -27,10 +27,59 @@ export class AppComponent {
   ngOnInit() {
     this.userService
       .getUsers()
-      .subscribe((users: User[]) => this.users = users);
+      .subscribe((users: User[]) => this.users = users)
     this.roleService
       .getRoles()
-      .subscribe((roles: Role[]) => this.roles = roles);
+      .subscribe((roles: Role[]) => this.roles = roles)
+  }
+
+  addUser(userName: string) {
+    if(this.userService.userNameIsValid(userName)) {
+      let user = {name: userName, roles: []}
+      this.userService
+        .createUser(user)
+        .subscribe((user: User) => this.users.push(user))
+    }
+    else {
+      alert("Check the name you entered.")
+    }   
+  }
+
+  addRole(roleName: string) {
+    if(this.roleService.roleNameIsValid(roleName)) {      
+      let role = {name: roleName}
+      this.roleService
+        .createRole(role)
+        .subscribe((role: Role) => this.roles.push(role))
+    }
+    else {
+      alert("Check the name you entered.")
+    }
+  }
+
+  deleteRole(role: Role) {
+    this.roleService
+      .deleteRole(role.id)
+      .subscribe(() => {
+        this.deleteItem(this.roles, role.id)
+        for(let i = 0; i < this.users.length; i++) {
+          for(let j = 0; j < this.users[i].roles.length; j++) {   
+            if(this.users[i].roles[j].id == role.id) {
+              this.users[i].roles.splice(j, 1)
+              break
+            }      
+          }
+          this.userService
+            .editUser(this.users[i])
+            .subscribe(() => {})
+        }   
+      });
+  }
+
+  deleteUser(userId?: string) {
+    this.userService
+      .deleteUser(userId)
+      .subscribe(() => this.deleteItem(this.users, userId))
   }
 
   showUserModal(user: User) {
@@ -44,48 +93,18 @@ export class AppComponent {
 
   showRoleModal(role: Role) {
     const component = this.roleRefDirective.containerRef.createComponent(EditRoleComponent)
+    component.instance.users = this.users
     component.instance.role = role
     component.instance.close.subscribe(() => {
       this.roleRefDirective.containerRef.clear()
     })
   }
 
-  addUser(userName: string) {
-    // проверка данных, регулярка и защита от html инъекций
-    let user = {name: userName, roles: []}
-    this.userService
-      .createUser(user)
-      .subscribe((user: User) => this.users.push(user));
-      return false;
-  }
-
-  addRole(roleName: string) {
-    let role = {name: roleName}
-    this.roleService
-      .createRole(role)
-      .subscribe((role: Role) => this.roles.push(role));
-    return false;
-  }
-
-  deleteRole(roleId) {
-    this.roleService
-      .deleteRole(roleId)
-      .subscribe(() => this.deleteItem(this.roles, roleId));
-      return false;
-  }
-
-  deleteUser(userId) {
-    this.userService
-      .deleteUser(userId)
-      .subscribe(() => this.deleteItem(this.users, userId));
-      return false;
-  }
-
-  private deleteItem<T extends Role | User>(collection: T[], itemId: string) {
+  private deleteItem<T extends Role | User>(collection: T[], itemId?: string) {
     for(let i = 0; i < collection.length; i++) {
       if(collection[i].id == itemId) {           
-        collection.splice(i, 1);
-        return;
+        collection.splice(i, 1)
+        return
       }
     }
   }

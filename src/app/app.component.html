@@ -28,7 +28,7 @@
             <input type="text" class="input-field" readonly value="{{role.name}}">
             <div>
                 <button class="btn btn-success btn-sm m-1" title="Edit Role" (click)="showRoleModal(role)">&#10000;</button>
-                <button class="btn btn-danger btn-sm m-1" title="Delete Role" (click)="deleteRole(role.id)">X</button>
+                <button class="btn btn-danger btn-sm m-1" title="Delete Role" (click)="deleteRole(role)">X</button>
             </div>
         </div>
         <div *ngIf="roles.length == 0">
@@ -43,7 +43,7 @@
         </form>
         <h3 class="text-center">Add Role</h3>
         <form class="user-field" (submit)="addRole(roleInput.value)">            
-            <input class="input-field" type="text" #roleInput placeholder="User role">
+            <input class="input-field" type="text" #roleInput placeholder="User role" required>
             <button type="submit" title="Add Role" class="btn btn-success">Add Role</button>            
         </form>
     </div>
